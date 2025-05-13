@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="tr"> <head><meta charset="UTF-8"><title>Malik Utku Vur | Terminal</title><link rel="stylesheet" href="/malikutkuvur.com/_astro/index.xokr4UHF.css"></head> <body> <div class="container"> <div class="command-line"> <p>Merhaba, I am Malik Utku Vur.</p> <br> <pre id="terminal-output"></pre> <p><strong>$</strong> <input id="terminal-input" type="text" autofocus></p> </div> </div> <script type="module">
+  const commands = ['help', 'about', 'projects', 'social', 'contact', 'language', 'dil', 'hello world', 'sudo', 'exit', 'coffee', 'clear', 'clc'];
+  const input = document.getElementById('terminal-input');
+  const output = document.getElementById('terminal-output');
+
+  let lang = 'en';
+  let history = [];
+  let historyIndex = -1;
+
+  function getHelp() {
+    const helpMessages = {
+      tr: `Kullanılabilir komutlar:\n- about: Hakkımda\n- projects: Projelerim\n- social: Sosyal Medya\n- contact: İletişim Bilgileri\n- language en / dil en: İngilizceye geç\n- language tr / dil tr: Türkçeye geç`,
+      en: `Available commands:\n- about: About me\n- projects: My projects\n- social: Social Media\n- contact: Contact Info\n- language en / dil en: Switch to English\n- language tr / dil tr: Switch to Turkish`
+    };
+    return helpMessages[lang];
+  }
+
+  function getMessage(key) {
+    const messages = {
+      tr: {
+        about: 'Ben Malik Utku Vur. Oyun geliştirici ve araştırmacıyım.',
+        projects: 'Flip & Conquer (Geliştiriliyor), Urban Pulse (Konsept Aşaması).',
+        social: 'GitHub: github.com/mlkvr | Twitter: twitter.com/mlkvr',
+        contact: 'İletişim: hello@malikutkuvur.com',
+        unknown: 'Komut bulunamadı. "help" yazarak tüm komutları görebilirsin.',
+        hello: 'Her şeyin başladığı yer.',
+        sudo: 'Yetkin yok ama denemene sevindim.',
+        exit: 'Buradan çıkış yok 😈',
+        coffee: 'Kahve hazırlanamıyor... sistem stabil değil.',
+        langChanged: 'Dil Türkçe olarak ayarlandı.'
+      },
+      en: {
+        about: 'I am Malik Utku Vur. A game developer and researcher.',
+        projects: 'Flip & Conquer (In development), Urban Pulse (Concept stage).',
+        social: 'GitHub: github.com/mlkvr | Twitter: twitter.com/mlkvr',
+        contact: 'Contact: hello@malikutkuvur.com',
+        unknown: 'Command not found. Type "help" to see all commands.',
+        hello: 'The place where it all began.',
+        sudo: 'You have no power here, but I like your spirit.',
+        exit: 'There is no escape 😈',
+        coffee: 'Coffee machine malfunction... system unstable.',
+        langChanged: 'Language set to English.'
+      }
+    };
+    return messages[lang][key];
+  }
+
+  function print(message) {
+    output.textContent += message + '\n';
+  }
+
+  print('Type "help" to list available commands.');
+
+  input.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      const command = input.value.trim().toLowerCase();
+      let response = '';
+
+	  history.push(command);
+      historyIndex = history.length;
+
+      if (command === 'language en' || command === 'dil en') {
+        lang = 'en';
+        response = getMessage('langChanged');
+      } else if (command === 'language tr' || command === 'dil tr') {
+        lang = 'tr';
+        response = getMessage('langChanged');
+      } else if (command === 'help') {
+        response = getHelp();
+      } else if (command === 'clear' || command === 'clc') {
+        output.textContent = '';
+      }
+ 		else {
+        switch (command) {
+          case 'about':
+          case 'projects':
+          case 'social':
+          case 'contact':
+            response = getMessage(command);
+            break;
+          case 'hello world':
+            response = getMessage('hello');
+            break;
+          case 'sudo':
+            response = getMessage('sudo');
+            break;
+          case 'exit':
+            response = getMessage('exit');
+            break;
+          case 'coffee':
+            response = getMessage('coffee');
+            break;
+          default:
+            response = getMessage('unknown');
+        }
+      }
+
+      print(`$ ${command}\n${response}`);
+      input.value = '';
+    }
+  });
+
+    input.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        historyIndex--;
+        input.value = history[historyIndex];
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex < history.length - 1) {
+        historyIndex++;
+        input.value = history[historyIndex];
+      } else {
+        historyIndex = history.length;
+        input.value = '';
+      }
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      const current = input.value.trim().toLowerCase();
+      const match = commands.find(cmd => cmd.startsWith(current));
+      if (match) {
+        input.value = match;
+      }
+    }
+  });
+
+</script> </body> </html>
