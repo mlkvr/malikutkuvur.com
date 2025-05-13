@@ -1,0 +1,44 @@
+@import "@fontsource/jetbrains-mono";
+
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: #00FF9C;
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.command-line {
+  border-left: 2px solid #00FF9C;
+  padding-left: 10px;
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  .command-line {
+    font-size: 0.9rem;
+  }
+}
+input#terminal-input {
+  background: transparent;
+  border: none;
+  color: #00FF9C;
+  font-family: 'JetBrains Mono', monospace;
+  outline: none;
+  width: 80%;
+}
+
